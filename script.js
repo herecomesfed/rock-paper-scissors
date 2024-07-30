@@ -13,17 +13,31 @@ const options = [
   },
 ];
 
-let isGameStarted = false;
+// DOM Selectors
 const frontScreen = document.querySelector(".front-screen");
 const gameScreen = document.querySelector(".play-screen");
 const modal = document.querySelector(".result");
 const btnContainer = document.querySelector(".game-mode__buttons");
 const restart = document.querySelector(".restart");
 const cards = document.querySelector(".cards");
+const winnerPlayer = document.querySelector(".winner");
+
+const player1ActualScore = document.querySelector(
+  ".score__player--1 .actual-score"
+);
+const player2ActualScore = document.querySelector(
+  ".score__player--2 .actual-score"
+);
+
+// Game Variables
+const MAX_SCORE = 3;
+let isGameStarted = false;
 let player1Selection = "";
 let player2Selection = "";
 let player1Score = 0;
 let player2Score = 0;
+let winner = "";
+let gameMode = "";
 
 function gameStarted() {
   isGameStarted = true;
@@ -39,10 +53,19 @@ function restartGame() {
 }
 
 btnContainer.addEventListener("click", function (e) {
-  //   const singleButton = document.querySelector(".game-mode__button");
   console.log(e.target);
+  if (e.target.closest('[data-game="human-vs-cpu"]')) {
+    gameMode = "human-vs-cpu";
+  }
+  if (e.target.closest('[data-game="cpu-vs-cpu"]')) {
+    gameMode = "cpu-vs-cpu";
+  }
   if (e.target.closest(".game-mode__button")) {
+    gameScreen.dataset.game = gameMode;
     gameStarted();
+    if (gameMode === "cpu-vs-cpu") {
+      setInterval(cpuvscpu, 5000);
+    }
   }
 });
 
@@ -54,9 +77,18 @@ document.addEventListener("click", function (e) {
   if (e.target.closest(".restart")) {
     player1Score = 0;
     player2Score = 0;
+    player1ActualScore.textContent = 0;
+    player2ActualScore.textContent = 0;
+    gameScreen.dataset.game = "";
     restartGame();
   }
 });
+
+function cpuvscpu() {
+  player1Selection = options[Math.round(Math.random() * 2)].move;
+  player2Selection = options[Math.round(Math.random() * 2)].move;
+  checkWinner();
+}
 
 cards.addEventListener("click", function (e) {
   console.log(e.target.getAttribute("data-move"));
@@ -81,13 +113,19 @@ const checkWinner = function () {
   ) {
     console.log("Player 1 wins");
     player1Score++;
+    player1ActualScore.textContent = player1Score;
   } else {
     console.log("Player 2 Wins");
     player2Score++;
+    player2ActualScore.textContent = player2Score;
   }
   console.log("Player 1 Score:", player1Score);
   console.log("Player 2 Score:", player2Score);
-  if (player1Score === 3 || player2Score === 3) {
+  player1Score === MAX_SCORE && (winner = "Player 1");
+  player2Score === MAX_SCORE && (winner = "Player 2");
+  if (player1Score === MAX_SCORE || player2Score === MAX_SCORE) {
+    console.log(winner);
+    winnerPlayer.textContent = winner;
     showModal();
   }
 };
