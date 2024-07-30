@@ -74,3 +74,38 @@ h1 {
 [data-active="false"] {
   display: none;
 }
+
+/* Game Field */
+.game-field {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.game-field h3 {
+  margin-bottom: 20px;
+}
+
+.score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.cards {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+.cards > li {
+  width: 33.333333%;
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid var(--secondary-color);
+  aspect-ratio: 3/4;
+  cursor: pointer;
+}
