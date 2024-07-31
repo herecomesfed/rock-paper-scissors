@@ -136,11 +136,16 @@ h1 {
 
 .cards li {
   background-color: #fff;
-  border: 2px solid #000;
+  /* border: 2px solid #000; */
   padding: 30px;
   aspect-ratio: 3 /4;
   text-align: center;
   cursor: pointer;
+  transition: all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.cards li.active {
+  background-color: #f2f2f2;
 }
 
 .cards li img {
@@ -151,7 +156,23 @@ h1 {
   font-size: 24px;
 }
 
+/* Conditionals */
 /* Data Active */
 [data-active="false"] {
   display: none;
+}
+
+/* .cards--result {
+  border: 1px solid red;
+  height: 60px;
+} */
+
+.modal {
+  position: fixed;
+  width: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000000;
+  background-color: #fff;
 }

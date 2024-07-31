@@ -20,6 +20,8 @@ const restart = document.querySelector(".restart");
 const cards = document.querySelector(".cards");
 const roundWinner = document.querySelector(".round-winner");
 const winnerPlayer = document.querySelector(".winner");
+const cardResultsContainer = document.querySelector(".cards--result");
+const modal = document.querySelector(".modal");
 
 const player1ActualScore = document.querySelector(".score-1 .score__number");
 const player2ActualScore = document.querySelector(".score-2 .score__number");
@@ -36,17 +38,6 @@ let gameMode = "";
 
 // Functions
 
-// Start Game
-// function gameStarted() {
-//   isGameStarted = true;
-//   frontScreen.dataset.active = !isGameStarted;
-//   gameScreen.dataset.active = isGameStarted;
-//   console.log("You are currently playing");
-//   if (gameMode === "cpu-vs-cpu") {
-//     setInterval(cpuvscpu, 2000);
-//   }
-// }
-
 function startGame() {
   isGameStarted = true;
 }
@@ -54,28 +45,40 @@ startGame();
 
 cards.addEventListener("click", chooseCard);
 
-// function chooseCard(e) {
-//   if (!isGameStarted) return;
-//   player1Selection = options.find(
-//     ({ move }) => move === e.target.getAttribute("data-move")
-//   ).move;
-//   player2Selection = options[Math.round(Math.random() * 2)].move;
-//   console.log("Player 1", player1Selection);
-//   console.log("Player 2", player2Selection);
-//   // checkWinner();
-// }
-
 function chooseCard(e) {
+  if (!isGameStarted) return;
+  // My Choice
   const selectedCard = e.target.closest(".card");
+  // Return if the target isn't selected card
   if (!selectedCard) return;
+  // Clone choiced card
+  showResult(selectedCard);
+
   console.log(e.target.closest(".card"));
+  selectedCard.classList.add("active");
+  // Find Player Selection in the Object
   player1Selection = options.find(
     ({ move }) => move === selectedCard.getAttribute("data-move")
   ).move;
   player2Selection = options[Math.round(Math.random() * 2)].move;
+  const domelement = document.querySelector(
+    `[data-move="${player2Selection}"]`
+  );
+  // Clone choiced CPU Card
+  showResult(domelement);
+  console.log("Dome element", domelement);
   console.log("Player 1", player1Selection);
   console.log("Player 2", player2Selection);
+
+  // Check who wins
   checkWinner();
+
+  // Reset style of selected card
+  setTimeout(() => {
+    selectedCard.classList.remove("active");
+  }, 1000);
+  isGameStarted = false;
+  openModal();
 }
 
 const checkWinner = function () {
@@ -90,19 +93,45 @@ const checkWinner = function () {
   ) {
     console.log("Player 1 wins");
     player1Score++;
-    // roundWinner.textContent = "Player 1 won the round";
     player1ActualScore.textContent = player1Score;
   } else {
     console.log("Player 2 Wins");
     player2Score++;
-    // roundWinner.textContent = "Player 2 won the round";
     player2ActualScore.textContent = player2Score;
   }
   console.log("Player 1 Score:", player1Score);
   console.log("Player 2 Score:", player2Score);
-  player1Score === MAX_SCORE && (gameWinner = "Player 1");
-  player2Score === MAX_SCORE && (gameWinner = "Player 2");
+  // player1Score === MAX_SCORE && (gameWinner = "Player 1");
+  // player2Score === MAX_SCORE && (gameWinner = "Player 2");
 };
+
+function showResult(selected) {
+  const clonedElement = selected.cloneNode(true);
+  cardResultsContainer.appendChild(clonedElement);
+}
+
+function openModal() {
+  modal.dataset.active = "true";
+  document.querySelector(".play-again").addEventListener("click", playAgain);
+  document.querySelector(".reset").addEventListener("click", function () {
+    reset();
+    playAgain();
+  });
+}
+
+function playAgain() {
+  console.log("Ciaooooo");
+  isGameStarted = true;
+  modal.dataset.active = "false";
+  cardResultsContainer.innerHTML = "";
+}
+
+function reset() {
+  player1Score = 0;
+  player2Score = 0;
+  player1ActualScore.textContent = player1Score;
+  player2ActualScore.textContent = player2Score;
+}
 
 // // Restart Game
 // function restartGame() {
