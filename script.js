@@ -48,30 +48,33 @@ function gameStarted() {
   frontScreen.dataset.active = !isGameStarted;
   gameScreen.dataset.active = isGameStarted;
   console.log("You are currently playing");
+  if (gameMode === "cpu-vs-cpu") {
+    setInterval(cpuvscpu, 2000);
+  }
 }
 
 // Restart Game
 function restartGame() {
   isGameStarted = false;
+  gameMode = "";
   frontScreen.dataset.active = true;
   gameScreen.dataset.active = false;
   modal.dataset.active = false;
+  clearInterval(cpuvscpu);
 }
 
 btnContainer.addEventListener("click", function (e) {
   console.log(e.target);
   if (e.target.closest('[data-game="human-vs-cpu"]')) {
     gameMode = "human-vs-cpu";
+    gameScreen.dataset.game = gameMode;
   }
   if (e.target.closest('[data-game="cpu-vs-cpu"]')) {
     gameMode = "cpu-vs-cpu";
+    gameScreen.dataset.game = gameMode;
   }
   if (e.target.closest(".game-mode__button")) {
-    gameScreen.dataset.game = gameMode;
     gameStarted();
-    if (gameMode === "cpu-vs-cpu") {
-      setInterval(cpuvscpu, 2000);
-    }
   }
 });
 

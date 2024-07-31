@@ -10,19 +10,9 @@
   <body>
     <main>
       <div class="container">
-        <nav class="header">
-          <div class="header__inner">
-            <h1>
-              Rock <br />
-              Paper <br />
-              Scissors
-            </h1>
-            <div class="score">
-              <h3 class="score__title">Score</h3>
-              <p class="score__number">0</p>
-            </div>
-          </div>
-        </nav>
+        <div class="heading">
+          <h1>Carta, Forbice, Sasso</h1>
+        </div>
         <div class="front-screen" data-active="true">
           <div class="game-mode">
             <h2>In che modalità vuoi giocare?</h2>
@@ -39,28 +29,37 @@
             </div>
           </div>
         </div>
-        <div class="play-screen" data-game="">
+        <div class="play-screen" data-active="false" data-game="cpu-vs-cpu">
           <!-- <h2>You are in play mode</h2> -->
-          <!-- <div class="game-mode__buttons">
+          <div class="game-mode__buttons">
             <div class="restart btn">Restart</div>
-          </div> -->
+          </div>
           <div class="game-field">
             <div class="player-field">
               <p class="round-winner"></p>
               <ul class="cards">
-                <li data-move="rock" aria-label="rock">
-                  <img src="assets/rock.png" alt="Rock" />
-                  <h4>Rock</h4>
-                </li>
-                <li data-move="paper" aria-label="paper">
-                  <img src="assets/paper.png" alt="Paper" />
-                  <h4>Paper</h4>
-                </li>
-                <li data-move="scissor" aria-label="scissors">
-                  <img src="assets/scissors.png" alt="Scissors" />
-                  <h4>Scissors</h4>
-                </li>
+                <li data-move="rock">Rock</li>
+                <li data-move="paper">Paper</li>
+                <li data-move="scissor">Scissors</li>
               </ul>
+            </div>
+          </div>
+          <div class="score">
+            <div class="score__player score__player--1">
+              <h4>Player 1</h4>
+              <p>
+                <span class="actual-score">0</span>/<span class="max-score"
+                  >3</span
+                >
+              </p>
+            </div>
+            <div class="score__player score__player--2">
+              <h4>Player 2</h4>
+              <p>
+                <span class="actual-score">0</span>/<span class="max-score"
+                  >3</span
+                >
+              </p>
             </div>
           </div>
         </div>
