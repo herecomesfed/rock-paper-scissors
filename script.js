@@ -34,7 +34,7 @@ let player2Selection = "";
 let player1Score = 0;
 let player2Score = 0;
 let matchWinner = "";
-let gameMode = "";
+let gameMode = "cpuvscpu";
 
 // Functions
 
@@ -67,20 +67,48 @@ function chooseCard(e) {
 
   cards.dataset.active = "false";
 
+  // Reset style of selected card
+  setTimeout(() => {
+    selectedCard.classList.remove("active");
+  }, 1000);
+
   // Check who wins
   checkWinner();
 
   // Mostra la schermata del risultato
   showResult(player1Selection, player2Selection);
 
-  // Reset style of selected card
-  // setTimeout(() => {
-  //   selectedCard.classList.remove("active");
-  // }, 1000);
   isGameStarted = false;
 
   cardResultsContainer.dataset.active = "true";
   // openModal();
+}
+
+btnContainer.addEventListener("click", function (e) {
+  if (e.target.closest('[data-game="cpu-vs-cpu"]')) {
+    autoChooseMove();
+  }
+});
+
+function autoChooseMove() {
+  if (!isGameStarted) return;
+  if (gameMode === "cpuvscpu") {
+    player2Selection = options[Math.round(Math.random() * 2)].move;
+
+    console.log("Player 1", player1Selection);
+    console.log("Player 2", player2Selection);
+
+    cards.dataset.active = "false";
+
+    // Check who wins
+    checkWinner();
+
+    // Mostra la schermata del risultato
+    showResult(player1Selection, player2Selection);
+    isGameStarted = false;
+
+    cardResultsContainer.dataset.active = "true";
+  }
 }
 
 const checkWinner = function () {
@@ -114,7 +142,7 @@ function showResult(player1Selection, player2Selection) {
   const resultMarkup = `<div class="cards cards--result">
     <div class="card" data-move="${player1Selection}" aria-label="${player1Selection}">
       <img src="assets/${player1Selection}.png" alt="${player1Selection}" />
-      <h4>${player1Selection}</h4>
+      <h4>${firstLetterUppercase(player1Selection)}</h4>
     </div>
     <div class="result">
     <h4 class="match-winner">${matchWinner}</h4>
@@ -125,10 +153,12 @@ function showResult(player1Selection, player2Selection) {
     </div>
     <div class="card" data-move="${player2Selection}" aria-label="${player2Selection}">
       <img src="assets/${player2Selection}.png" alt="${player2Selection}" />
-      <h4>${player2Selection}</h4>
+      <h4>${firstLetterUppercase(player2Selection)}</h4>
     </div>
   </div>`
   cardResultsContainer.insertAdjacentHTML("beforeend", resultMarkup);
+
+  // New game and reset Buttons
   document.querySelector(".play-again").addEventListener("click", playAgain);
   document.querySelector(".reset").addEventListener("click", function () {
     reset();
@@ -150,6 +180,10 @@ function reset() {
   player2Score = 0;
   player1ActualScore.textContent = player1Score;
   player2ActualScore.textContent = player2Score;
+}
+
+function firstLetterUppercase(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // btnContainer.addEventListener("click", function (e) {
