@@ -20,6 +20,7 @@ const modal = document.querySelector(".result");
 const btnContainer = document.querySelector(".game-mode__buttons");
 const restart = document.querySelector(".restart");
 const cards = document.querySelector(".cards");
+const roundWinner = document.querySelector(".round-winner");
 const winnerPlayer = document.querySelector(".winner");
 
 const player1ActualScore = document.querySelector(
@@ -36,15 +37,20 @@ let player1Selection = "";
 let player2Selection = "";
 let player1Score = 0;
 let player2Score = 0;
-let winner = "";
+let gameWinner = "";
 let gameMode = "";
 
+// Functions
+
+// Start Game
 function gameStarted() {
   isGameStarted = true;
   frontScreen.dataset.active = !isGameStarted;
   gameScreen.dataset.active = isGameStarted;
   console.log("You are currently playing");
 }
+
+// Restart Game
 function restartGame() {
   isGameStarted = false;
   frontScreen.dataset.active = true;
@@ -64,7 +70,7 @@ btnContainer.addEventListener("click", function (e) {
     gameScreen.dataset.game = gameMode;
     gameStarted();
     if (gameMode === "cpu-vs-cpu") {
-      setInterval(cpuvscpu, 5000);
+      setInterval(cpuvscpu, 2000);
     }
   }
 });
@@ -85,12 +91,15 @@ document.addEventListener("click", function (e) {
 });
 
 function cpuvscpu() {
+  if (!isGameStarted) return;
   player1Selection = options[Math.round(Math.random() * 2)].move;
   player2Selection = options[Math.round(Math.random() * 2)].move;
   checkWinner();
 }
 
+// Human vs CPU
 cards.addEventListener("click", function (e) {
+  if (!isGameStarted) return;
   console.log(e.target.getAttribute("data-move"));
   player1Selection = options.find(
     ({ move }) => move === e.target.getAttribute("data-move")
@@ -113,19 +122,22 @@ const checkWinner = function () {
   ) {
     console.log("Player 1 wins");
     player1Score++;
+    roundWinner.textContent = "Player 1 won the round";
     player1ActualScore.textContent = player1Score;
   } else {
     console.log("Player 2 Wins");
     player2Score++;
+    roundWinner.textContent = "Player 2 won the round";
     player2ActualScore.textContent = player2Score;
   }
   console.log("Player 1 Score:", player1Score);
   console.log("Player 2 Score:", player2Score);
-  player1Score === MAX_SCORE && (winner = "Player 1");
-  player2Score === MAX_SCORE && (winner = "Player 2");
+  player1Score === MAX_SCORE && (gameWinner = "Player 1");
+  player2Score === MAX_SCORE && (gameWinner = "Player 2");
   if (player1Score === MAX_SCORE || player2Score === MAX_SCORE) {
-    console.log(winner);
-    winnerPlayer.textContent = winner;
+    console.log(gameWinner);
+    isGameStarted = false;
+    winnerPlayer.textContent = gameWinner;
     showModal();
   }
 };
