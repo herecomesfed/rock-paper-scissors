@@ -17,9 +17,15 @@
               Paper <br />
               Scissors
             </h1>
-            <div class="score">
-              <h3 class="score__title">Score</h3>
-              <p class="score__number">0</p>
+            <div class="scores-container">
+              <div class="score score-1">
+                <h3 class="score__title">Player 1 Score</h3>
+                <p class="score__number">0</p>
+              </div>
+              <div class="score score-2">
+                <h3 class="score__title">Player 2 Score</h3>
+                <p class="score__number">0</p>
+              </div>
             </div>
           </div>
         </nav>
@@ -40,35 +46,25 @@
           </div>
         </div>
         <div class="play-screen" data-game="">
-          <!-- <h2>You are in play mode</h2> -->
-          <!-- <div class="game-mode__buttons">
-            <div class="restart btn">Restart</div>
-          </div> -->
           <div class="game-field">
             <div class="player-field">
               <p class="round-winner"></p>
               <ul class="cards">
-                <li data-move="rock" aria-label="rock">
+                <li class="card" data-move="rock" aria-label="rock">
                   <img src="assets/rock.png" alt="Rock" />
                   <h4>Rock</h4>
                 </li>
-                <li data-move="paper" aria-label="paper">
+                <li class="card" data-move="paper" aria-label="paper">
                   <img src="assets/paper.png" alt="Paper" />
                   <h4>Paper</h4>
                 </li>
-                <li data-move="scissor" aria-label="scissors">
+                <li class="card" data-move="scissor" aria-label="scissors">
                   <img src="assets/scissors.png" alt="Scissors" />
                   <h4>Scissors</h4>
                 </li>
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="modal result" data-active="false">
-        <h3><span class="winner">Player 1</span> wins!</h3>
-        <div class="game-mode__buttons">
-          <div class="restart btn">Restart</div>
         </div>
       </div>
     </main>

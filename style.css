@@ -67,6 +67,11 @@ h1 {
   line-height: 1;
 }
 
+.scores-container {
+  display: flex;
+  gap: 30px;
+}
+
 .score {
   text-align: center;
   text-transform: uppercase;
