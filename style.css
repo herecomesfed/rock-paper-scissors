@@ -134,7 +134,7 @@ h1 {
   margin-inline: auto;
 }
 
-.cards li {
+.cards .card {
   background-color: #fff;
   /* border: 2px solid #000; */
   padding: 30px;
@@ -144,16 +144,29 @@ h1 {
   transition: all 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.cards li.active {
+.cards .card.active {
   background-color: #f2f2f2;
 }
 
-.cards li img {
+.cards .card img {
   width: 150px;
 }
 
-.cards li h4 {
+.cards .card h4 {
   font-size: 24px;
+}
+
+.cards.cards--result {
+  align-items: center;
+}
+
+.cards.cards--result .result {
+  text-align: center;
+}
+
+.match-winner {
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
 /* Conditionals */
@@ -167,7 +180,7 @@ h1 {
   height: 60px;
 } */
 
-.modal {
+/* .modal {
   position: fixed;
   width: 300px;
   top: 50%;
@@ -175,4 +188,4 @@ h1 {
   transform: translate(-50%, -50%);
   z-index: 10000000;
   background-color: #fff;
-}
+} */

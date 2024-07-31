@@ -20,7 +20,7 @@ const restart = document.querySelector(".restart");
 const cards = document.querySelector(".cards");
 const roundWinner = document.querySelector(".round-winner");
 const winnerPlayer = document.querySelector(".winner");
-const cardResultsContainer = document.querySelector(".cards--result");
+const cardResultsContainer = document.querySelector(".result-container");
 const modal = document.querySelector(".modal");
 
 const player1ActualScore = document.querySelector(".score-1 .score__number");
@@ -33,7 +33,7 @@ let player1Selection = "";
 let player2Selection = "";
 let player1Score = 0;
 let player2Score = 0;
-let gameWinner = "";
+let matchWinner = "";
 let gameMode = "";
 
 // Functions
@@ -52,7 +52,7 @@ function chooseCard(e) {
   // Return if the target isn't selected card
   if (!selectedCard) return;
   // Clone choiced card
-  showResult(selectedCard);
+  // showResult(selectedCard);
 
   console.log(e.target.closest(".card"));
   selectedCard.classList.add("active");
@@ -61,29 +61,33 @@ function chooseCard(e) {
     ({ move }) => move === selectedCard.getAttribute("data-move")
   ).move;
   player2Selection = options[Math.round(Math.random() * 2)].move;
-  const domelement = document.querySelector(
-    `[data-move="${player2Selection}"]`
-  );
-  // Clone choiced CPU Card
-  showResult(domelement);
-  console.log("Dome element", domelement);
+
   console.log("Player 1", player1Selection);
   console.log("Player 2", player2Selection);
+
+  cards.dataset.active = "false";
 
   // Check who wins
   checkWinner();
 
+  // Mostra la schermata del risultato
+  showResult(player1Selection, player2Selection);
+
   // Reset style of selected card
-  setTimeout(() => {
-    selectedCard.classList.remove("active");
-  }, 1000);
+  // setTimeout(() => {
+  //   selectedCard.classList.remove("active");
+  // }, 1000);
   isGameStarted = false;
-  openModal();
+
+  cardResultsContainer.dataset.active = "true";
+  // openModal();
 }
 
 const checkWinner = function () {
   if (player1Selection === player2Selection) {
     console.log("Draw");
+    matchWinner = "Draw";
+    console.log("matchWinner", matchWinner);
     return;
   }
   if (
@@ -91,27 +95,40 @@ const checkWinner = function () {
     (player1Selection === "scissor" && player2Selection === "paper") ||
     (player1Selection === "rock" && player2Selection === "scissor")
   ) {
-    console.log("Player 1 wins");
     player1Score++;
     player1ActualScore.textContent = player1Score;
+    matchWinner = "Player 1 wins";
+    console.log("matchWinner", matchWinner);
   } else {
-    console.log("Player 2 Wins");
     player2Score++;
     player2ActualScore.textContent = player2Score;
+    matchWinner = "Player 2 wins";
+    console.log("matchWinner", matchWinner);
   }
   console.log("Player 1 Score:", player1Score);
   console.log("Player 2 Score:", player2Score);
-  // player1Score === MAX_SCORE && (gameWinner = "Player 1");
-  // player2Score === MAX_SCORE && (gameWinner = "Player 2");
 };
 
-function showResult(selected) {
-  const clonedElement = selected.cloneNode(true);
-  cardResultsContainer.appendChild(clonedElement);
-}
-
-function openModal() {
-  modal.dataset.active = "true";
+function showResult(player1Selection, player2Selection) {
+  // prettier-ignore
+  const resultMarkup = `<div class="cards cards--result">
+    <div class="card" data-move="${player1Selection}" aria-label="${player1Selection}">
+      <img src="assets/${player1Selection}.png" alt="${player1Selection}" />
+      <h4>${player1Selection}</h4>
+    </div>
+    <div class="result">
+    <h4 class="match-winner">${matchWinner}</h4>
+      <div class="btns-container">
+        <button class="btn play-again">Gioca Ancora!</button>
+        <button class="btn btn--outline reset">Reset Score</button>
+      </div>
+    </div>
+    <div class="card" data-move="${player2Selection}" aria-label="${player2Selection}">
+      <img src="assets/${player2Selection}.png" alt="${player2Selection}" />
+      <h4>${player2Selection}</h4>
+    </div>
+  </div>`
+  cardResultsContainer.insertAdjacentHTML("beforeend", resultMarkup);
   document.querySelector(".play-again").addEventListener("click", playAgain);
   document.querySelector(".reset").addEventListener("click", function () {
     reset();
@@ -120,28 +137,20 @@ function openModal() {
 }
 
 function playAgain() {
-  console.log("Ciaooooo");
+  matchWinner = "";
+  cards.dataset.active = "true";
   isGameStarted = true;
-  modal.dataset.active = "false";
+  cardResultsContainer.dataset.active = "false";
   cardResultsContainer.innerHTML = "";
 }
 
 function reset() {
+  matchWinner = "";
   player1Score = 0;
   player2Score = 0;
   player1ActualScore.textContent = player1Score;
   player2ActualScore.textContent = player2Score;
 }
-
-// // Restart Game
-// function restartGame() {
-//   isGameStarted = false;
-//   gameMode = "";
-//   frontScreen.dataset.active = true;
-//   gameScreen.dataset.active = false;
-//   modal.dataset.active = false;
-//   clearInterval(cpuvscpu);
-// }
 
 // btnContainer.addEventListener("click", function (e) {
 //   console.log(e.target);
@@ -155,21 +164,6 @@ function reset() {
 //   }
 //   if (e.target.closest(".game-mode__button")) {
 //     gameStarted();
-//   }
-// });
-
-// restart.addEventListener("click", function () {
-//   restartGame();
-// });
-
-// document.addEventListener("click", function (e) {
-//   if (e.target.closest(".restart")) {
-//     player1Score = 0;
-//     player2Score = 0;
-//     player1ActualScore.textContent = 0;
-//     player2ActualScore.textContent = 0;
-//     gameScreen.dataset.game = "";
-//     restartGame();
 //   }
 // });
 
@@ -192,39 +186,3 @@ function reset() {
 //   console.log("Player 2", player2Selection);
 //   checkWinner();
 // });
-
-// const checkWinner = function () {
-//   if (player1Selection === player2Selection) {
-//     console.log("Draw");
-//     return;
-//   }
-//   if (
-//     (player1Selection === "paper" && player2Selection === "rock") ||
-//     (player1Selection === "scissor" && player2Selection === "paper") ||
-//     (player1Selection === "rock" && player2Selection === "scissor")
-//   ) {
-//     console.log("Player 1 wins");
-//     player1Score++;
-//     roundWinner.textContent = "Player 1 won the round";
-//     player1ActualScore.textContent = player1Score;
-//   } else {
-//     console.log("Player 2 Wins");
-//     player2Score++;
-//     roundWinner.textContent = "Player 2 won the round";
-//     player2ActualScore.textContent = player2Score;
-//   }
-//   console.log("Player 1 Score:", player1Score);
-//   console.log("Player 2 Score:", player2Score);
-//   player1Score === MAX_SCORE && (gameWinner = "Player 1");
-//   player2Score === MAX_SCORE && (gameWinner = "Player 2");
-//   if (player1Score === MAX_SCORE || player2Score === MAX_SCORE) {
-//     console.log(gameWinner);
-//     isGameStarted = false;
-//     winnerPlayer.textContent = gameWinner;
-//     showModal();
-//   }
-// };
-
-// const showModal = function () {
-//   modal.dataset.active = true;
-// };
