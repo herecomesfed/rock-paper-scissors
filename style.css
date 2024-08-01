@@ -1,6 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+/* -------------------------------------------------------------------------------- */
+/* ! Fonts */
+/* -------------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("./fonts/bebasneue.woff2") format("woff2"),
+    url("./fonts/bebasneue.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: "Poppins";
+  src: url("./fonts/poppins-regular.woff2") format("woff2"),
+    url("./fonts/poppins-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* -------------------------------------------------------------------------------- */
+/* ! Reset + Base Styling */
+/* -------------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -66,7 +85,34 @@ h6 {
   font-style: normal;
 }
 
-/* Header */
+/* -------------------------------------------------------------------------------- */
+/* ! Components */
+/* -------------------------------------------------------------------------------- */
+/* Buttons */
+.btn {
+  font-family: inherit;
+  font-weight: 400;
+  background: #fff;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: #000;
+  border: 2px solid #000;
+}
+
+/* -------------------------------------------------------------------------------- */
+/* ! Header */
+/* -------------------------------------------------------------------------------- */
 .header {
   padding: 20px;
   border: 1px solid #fff;
@@ -127,6 +173,9 @@ h1 {
   }
 }
 
+/* -------------------------------------------------------------------------------- */
+/* ! Game Mode */
+/* -------------------------------------------------------------------------------- */
 /* Choose Game Mode */
 .game-mode {
   display: flex;
@@ -175,26 +224,9 @@ body[data-gamemode="human-vs-cpu"] [data-actualmode="cpu-vs-cpu"] {
   display: none;
 }
 
-/* Buttons */
-.btn {
-  background: #fff;
-  font-weight: 700;
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  border-radius: 0;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.btn:hover {
-  transform: translateY(-5px);
-}
-
-.btn--outline {
-  background-color: transparent;
-  color: #000;
-  border: 2px solid #000;
-}
+/* -------------------------------------------------------------------------------- */
+/* ! Game Field */
+/* -------------------------------------------------------------------------------- */
 
 .game-field {
   margin-top: 70px;
@@ -299,6 +331,10 @@ body[data-gamemode="human-vs-cpu"] [data-actualmode="cpu-vs-cpu"] {
   }
 }
 
+/* -------------------------------------------------------------------------------- */
+/* ! Results */
+/* -------------------------------------------------------------------------------- */
+
 .cards.cards--result .result {
   text-align: center;
 }
@@ -344,7 +380,9 @@ body[data-gamemode="human-vs-cpu"] [data-actualmode="cpu-vs-cpu"] {
   }
 }
 
-/* Conditionals */
+/* -------------------------------------------------------------------------------- */
+/* ! Conditions */
+/* -------------------------------------------------------------------------------- */
 /* Data Active */
 [data-active="false"] {
   display: none;
