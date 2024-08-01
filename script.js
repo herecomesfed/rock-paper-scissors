@@ -1,31 +1,34 @@
 const options = [
   {
+    move: "rock",
+    moveName: "Rock",
+    icon: "./assets/rock.png",
+  },
+  {
     move: "paper",
-    icon: "src",
+    moveName: "Paper",
+    icon: "./assets/paper.png",
   },
   {
     move: "scissor",
-    icon: "src",
-  },
-  {
-    move: "rock",
-    icon: "src",
+    moveName: "Scissor",
+    icon: "./assets/scissor.png",
   },
 ];
 
 // DOM Selectors
 const gameScreen = document.querySelector(".play-screen");
 const restart = document.querySelector(".restart");
-// const playerField = document.querySelector(".player-field");
 const cards = document.querySelector(".cards");
 const roundWinner = document.querySelector(".round-winner");
 const winnerPlayer = document.querySelector(".winner");
 const cardResultsContainer = document.querySelector(".result-container");
+const gameModeContainer = document.querySelector(".game-mode");
 const gameModeButtonContainer = document.querySelector(".game-mode__buttons");
 const startCPUGame = document.querySelector(".start-cpu-game");
 
-const player1ActualScore = document.querySelector(".score-1 .score__number");
-const player2ActualScore = document.querySelector(".score-2 .score__number");
+const player1ActualScore = document.querySelector(".score--1 .score__number");
+const player2ActualScore = document.querySelector(".score--2 .score__number");
 
 // Game Variables
 // const MAX_SCORE = 3;
@@ -40,6 +43,24 @@ let gameMode = "human-vs-cpu";
 
 // Functions
 
+// Create list of cards based on the option object:
+function createCards() {
+  options.forEach((o) => {
+    // prettier-ignore
+    const cardsHTML = `
+                <li class="card" data-move="${o.move}" aria-label="${o.move}">
+                  <div class="card__inner">
+                    <img src="${o.icon}" alt="${o.moveName}" />
+                    <h4>${o.moveName}</h4>
+                  </div>
+                </li>
+  `;
+    cards.insertAdjacentHTML("beforeend", cardsHTML);
+  });
+}
+createCards();
+
+// Select Mode between "Human vs CPU" and "CPU vs CPU"
 gameModeButtonContainer.addEventListener("click", handleGameMode);
 function handleGameMode(e) {
   if (!isGameStarted) return;
@@ -58,6 +79,8 @@ function handleGameMode(e) {
   startGame();
 }
 
+// Start Game on Load
+// This function contains all the game logic
 function startGame() {
   isGameStarted = true;
   const isHumanVsCPU = gameMode === "human-vs-cpu";
@@ -66,6 +89,7 @@ function startGame() {
   startCPUGame.addEventListener("click", chooseCard);
 
   function chooseCard(e) {
+    // Guard Clause: Block the card choice if the game isn't started
     if (!isGameStarted) return;
     // My Choice if is Human VS CPU
     if (isHumanVsCPU) {
@@ -74,13 +98,7 @@ function startGame() {
       // Return if the target isn't selected card
       if (!selectedCard) return;
 
-      selectedCard.classList.add("active");
       player1Selection = selectedCard.getAttribute("data-move");
-
-      // Reset style of selected card
-      setTimeout(() => {
-        selectedCard.classList.remove("active");
-      }, 1000);
     }
 
     // My Choice if is CPU vs CPU
@@ -93,21 +111,26 @@ function startGame() {
 
     player2Selection = options[Math.round(Math.random() * 2)].move;
 
+    // Hide Game Mode Buttons when showing game result
+    gameModeContainer.dataset.active = false;
+
+    // Hide Card selection or Start button when showing solution
     isHumanVsCPU && (cards.dataset.active = false);
     isCPUVsCPU && (startCPUGame.dataset.active = false);
 
     // Check who wins
     checkWinner();
 
-    // Mostra la schermata del risultato
+    cardResultsContainer.dataset.active = "true";
+
+    // Show result container with selected cards
     showResult(player1Selection, player2Selection);
 
     isGameStarted = false;
-
-    cardResultsContainer.dataset.active = "true";
   }
 
   const checkWinner = function () {
+    // Game Winner Logic
     if (player1Selection === player2Selection) {
       matchWinner = "Draw";
       return;
@@ -128,32 +151,35 @@ function startGame() {
   };
 
   function showResult(player1Selection, player2Selection) {
+    // Generate result based on Player's choices
     // prettier-ignore
     const resultMarkup = 
     `<div class="cards cards--result">
       <div class="card" data-move="${player1Selection}" aria-label="${player1Selection}">
-        <img src="assets/${player1Selection}.png" alt="${player1Selection}" />
-        <h4>${firstLetterUppercase(player1Selection)}</h4>
+        <div class="card__inner">
+          <img src="assets/${player1Selection}.png" alt="${player1Selection}" />
+          <h4>${firstLetterUppercase(player1Selection)}</h4>
+        </div>
       </div>
       <div class="result">
       <h4 class="match-winner">${matchWinner}</h4>
-        <div class="btns-container btns-container--result">
-          <button class="btn play-again">Gioca Ancora!</button>
-          <button class="btn btn--outline reset">Reset Game</button>
+        <div class="btn-container btn-container--result">
+          <button class="btn play-again">Play Again!</button>
+          <button class="btn btn--outline reset">Reset Score</button>
         </div>
       </div>
       <div class="card" data-move="${player2Selection}" aria-label="${player2Selection}">
-        <img src="assets/${player2Selection}.png" alt="${player2Selection}" />
-        <h4>${firstLetterUppercase(player2Selection)}</h4>
+        <div class="card__inner">
+          <img src="assets/${player2Selection}.png" alt="${player2Selection}" />
+          <h4>${firstLetterUppercase(player2Selection)}</h4>
+        <div class="card__inner">
       </div>
     </div>`
     cardResultsContainer.insertAdjacentHTML("beforeend", resultMarkup);
 
     // New game and reset Buttons
-    const btnsContainerResult = document.querySelector(
-      ".btns-container--result"
-    );
-    btnsContainerResult.addEventListener("click", function (e) {
+    const btnContainerResult = document.querySelector(".btn-container--result");
+    btnContainerResult.addEventListener("click", function (e) {
       if (e.target.closest(".play-again")) {
         playAgain();
       }
@@ -171,6 +197,7 @@ function startGame() {
     } else {
       startCPUGame.dataset.active = "true";
     }
+    gameModeContainer.dataset.active = true;
     isGameStarted = true;
     cardResultsContainer.dataset.active = "false";
     cardResultsContainer.innerHTML = "";
@@ -183,8 +210,6 @@ function startGame() {
     player2Score = 0;
     player1ActualScore.textContent = player1Score;
     player2ActualScore.textContent = player2Score;
-    gameMode = "human-vs-cpu";
-    document.body.dataset.gamemode = gameMode;
   }
 
   function firstLetterUppercase(string) {

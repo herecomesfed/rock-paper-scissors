@@ -18,11 +18,11 @@
               Scissors
             </h1>
             <div class="scores-container">
-              <div class="score score-1">
+              <div class="score score--1">
                 <h3 class="score__title">Player 1 Score</h3>
                 <p class="score__number">0</p>
               </div>
-              <div class="score score-2">
+              <div class="score score--2">
                 <h3 class="score__title">Player 2 Score</h3>
                 <p class="score__number">0</p>
               </div>
@@ -30,14 +30,14 @@
           </div>
         </nav>
         <div class="front-screen" data-active="true">
-          <div class="game-mode">
+          <div class="game-mode" data-active="true">
             <div class="game-mode__texts">
-              <h2>In che modalità vuoi giocare?</h2>
+              <h2>Change Game Mode</h2>
               <p class="actual-mode" data-actualmode="human-vs-cpu">
-                Attualmente sei in Human vs CPU
+                Actually playing: "Human vs CPU"
               </p>
               <p class="actual-mode" data-actualmode="cpu-vs-cpu">
-                Attualmente sei in CPU vs CPU
+                Actually playing: "CPU vs CPU"
               </p>
             </div>
             <div class="game-mode__buttons">
@@ -62,18 +62,7 @@
           <div class="game-field">
             <div class="player-field">
               <ul class="cards" data-active="true">
-                <li class="card" data-move="rock" aria-label="rock">
-                  <img src="assets/rock.png" alt="Rock" />
-                  <h4>Rock</h4>
-                </li>
-                <li class="card" data-move="paper" aria-label="paper">
-                  <img src="assets/paper.png" alt="Paper" />
-                  <h4>Paper</h4>
-                </li>
-                <li class="card" data-move="scissor" aria-label="scissors">
-                  <img src="assets/scissor.png" alt="Scissor" />
-                  <h4>Scissor</h4>
-                </li>
+                <h3 class="cards__cta">Make your move!</h3>
               </ul>
               <div class="start-cpu-game" data-active="false">
                 <h3>Let CPU do the magic for you!</h3>
