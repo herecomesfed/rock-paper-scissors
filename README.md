@@ -12,8 +12,6 @@ My solution to Coding Problem "Rock, Paper, Scissors"
   - [Continued development](#continued-development)
 - [Credits](#credits)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
-
 ## Overview
 
 ### The coding problem
