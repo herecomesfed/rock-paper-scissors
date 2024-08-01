@@ -17,29 +17,23 @@ const options = [
 ];
 
 // DOM Selectors
-const gameScreen = document.querySelector(".play-screen");
 const restart = document.querySelector(".restart");
 const cards = document.querySelector(".cards");
-const roundWinner = document.querySelector(".round-winner");
-const winnerPlayer = document.querySelector(".winner");
 const cardResultsContainer = document.querySelector(".result-container");
 const gameModeContainer = document.querySelector(".game-mode");
 const gameModeButtonContainer = document.querySelector(".game-mode__buttons");
 const startCPUGame = document.querySelector(".start-cpu-game");
-
 const player1ActualScore = document.querySelector(".score--1 .score__number");
 const player2ActualScore = document.querySelector(".score--2 .score__number");
 
 // Game Variables
-// const MAX_SCORE = 3;
 let isGameStarted = false;
 let player1Selection = "";
 let player2Selection = "";
 let player1Score = 0;
 let player2Score = 0;
 let matchWinner = "";
-
-let gameMode = "human-vs-cpu";
+let gameMode = "human-vs-cpu"; // Hu vs CPU by default
 
 // Functions
 
@@ -129,6 +123,7 @@ function startGame() {
     isGameStarted = false;
   }
 
+  // Check the winner based on P1 and P2 choices
   const checkWinner = function () {
     // Game Winner Logic
     if (player1Selection === player2Selection) {
@@ -216,4 +211,5 @@ function startGame() {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }
+
 startGame();
