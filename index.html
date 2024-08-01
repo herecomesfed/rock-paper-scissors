@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
   </head>
-  <body>
+  <body data-gamemode="human-vs-cpu">
     <main>
       <div class="container">
         <nav class="header">
@@ -31,14 +31,27 @@
         </nav>
         <div class="front-screen" data-active="true">
           <div class="game-mode">
-            <h2>In che modalità vuoi giocare?</h2>
+            <div class="game-mode__texts">
+              <h2>In che modalità vuoi giocare?</h2>
+              <p class="actual-mode" data-actualmode="human-vs-cpu">
+                Attualmente sei in Human vs CPU
+              </p>
+              <p class="actual-mode" data-actualmode="cpu-vs-cpu">
+                Attualmente sei in CPU vs CPU
+              </p>
+            </div>
             <div class="game-mode__buttons">
-              <button class="game-mode__button btn" data-game="human-vs-cpu">
+              <button
+                class="game-mode__button btn"
+                data-gamemode="human-vs-cpu"
+                data-gamemodeid="1"
+              >
                 Human vs CPU
               </button>
               <button
                 class="game-mode__button btn btn--outline"
-                data-game="cpu-vs-cpu"
+                data-gamemode="cpu-vs-cpu"
+                data-gamemodeid="2"
               >
                 CPU vs CPU
               </button>
@@ -48,7 +61,6 @@
         <div class="play-screen" data-game="">
           <div class="game-field">
             <div class="player-field">
-              <p class="round-winner"></p>
               <ul class="cards" data-active="true">
                 <li class="card" data-move="rock" aria-label="rock">
                   <img src="assets/rock.png" alt="Rock" />
@@ -63,6 +75,10 @@
                   <h4>Scissor</h4>
                 </li>
               </ul>
+              <div class="start-cpu-game" data-active="false">
+                <h3>Let CPU do the magic for you!</h3>
+                <button class="btn start-cpu-game__btn">Play!</button>
+              </div>
               <div class="result-container" data-active="true"></div>
             </div>
           </div>

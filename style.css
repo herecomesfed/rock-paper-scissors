@@ -111,6 +111,14 @@ h1 {
   font-size: 28px;
 }
 
+body[data-gamemode="cpu-vs-cpu"] [data-actualmode="human-vs-cpu"] {
+  display: none;
+}
+
+body[data-gamemode="human-vs-cpu"] [data-actualmode="cpu-vs-cpu"] {
+  display: none;
+}
+
 /* Buttons */
 .btn {
   background: #fff;
@@ -184,6 +192,13 @@ h1 {
 }
 
 .cards.cards--result .card {
+  animation: revealFromBottom 1s;
+  animation-fill-mode: forwards;
+  cursor: auto;
+}
+
+.start-cpu-game {
+  text-align: center;
   animation: revealFromBottom 1s;
   animation-fill-mode: forwards;
 }
