@@ -20,7 +20,7 @@ Users should be able to:
 
 - Play Human vs CPU
 - Play CPU vs CPU
-- Start other match after the previous
+- Start another match after the previous
 
 ### Links
 
